@@ -29,6 +29,12 @@ class Config(object):
                     export=r'C:\Users\anderson\Desktop\merge',
                 ),
 
+                vazao=dict(
+                    vazao_historica=r'C:\Users\anderson\Desktop/Vazões_Diárias_1931_2017.csv',
+                    cad_usinas=r'C:\Users\anderson\Desktop/tbl_posto.csv',
+                    acomph=r''
+                ),
+
                 gfs=dict(),
 
                 gefs=dict(),
@@ -45,8 +51,8 @@ class Config(object):
             credentials=dict(
                 user='',
                 password='',
-                host='staclara.cm0s2bcwfhep.sa-east-1.rds.amazonaws.com',
-                database='db_sta_clara',
+                host='',
+                database='',
                 port=3306,
                 # raise_on_warnings=True,
                 # get_warnings=True,

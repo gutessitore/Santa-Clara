@@ -54,6 +54,5 @@ if __name__ == '__main__':
         pathname=os.path.join(config['paths']['merge']['export'], '*.nc')
     )
 
-
     merge = Merge()
     merge.get_data(paths=files, chunk=1)

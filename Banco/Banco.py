@@ -13,13 +13,14 @@ class Posto(Base):
     __tablename__ = 'tbl_posto'
 
     id = Column(Integer)
+    num_usina = Column(Integer)
     num_posto = Column(Integer, primary_key=True)
-    nom_posto = Column(VARCHAR(255))
     nom_usina = Column(VARCHAR(255))
+    nom_posto = Column(VARCHAR(255))
     num_ordem = Column(Integer)
     num_jusante = Column(Integer)
-    num_lat = Column(Float)
-    num_lon = Column(Float)
+    val_lat = Column(Float)
+    val_lon = Column(Float)
 
     # Relações
     vazoes = relationship('Vazao', back_populates='posto')
@@ -44,6 +45,7 @@ class Vazao(Base):
 
 class Chuva(Base):
     __tablename__ = 'tbl_chuva'
+
     id = Column(Integer, primary_key=True)
     val_lon = Column(Float)
     val_lat = Column(Float)
