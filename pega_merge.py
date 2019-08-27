@@ -55,4 +55,4 @@ if __name__ == '__main__':
     )
 
     merge = Merge()
-    merge.get_data(paths=files, chunk=1)
+    merge.get_data(paths=files, chunk=5)

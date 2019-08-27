@@ -16,7 +16,7 @@ class Config(object):
 
                 sub_set=dict(
                     lat=dict(ini=-22.5, fim=-17.5, obs='graus N'),
-                    lon=dict(ini=-52.5, fim=-40.0, ob='graus oeste'),
+                    lon=dict(ini=-52.5, fim=-40.0, ob='graus leste'),
                 )
 
             ),

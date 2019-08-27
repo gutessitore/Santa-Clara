@@ -92,13 +92,26 @@ class Dados(object):
         session.commit()
 
     def get_vazao(self, data_inicial='1998-01-02', data_final='2019-08-31', posto=1):
-
         session = Session(bind=engine)
 
-        stmt = session.query(Vazao).\
+        stmt = session.query(
+            Vazao.num_posto, Vazao.dat_medicao, Vazao.val_vaz_natr).\
             filter(Vazao.dat_medicao >= data_inicial).\
             filter(Vazao.dat_medicao <= data_final).\
             filter(Vazao.num_posto == posto)
+
+        df = pd.read_sql(
+            sql=stmt.statement,
+            con=session.bind
+        )
+
+        return df
+
+    def get_posto(self):
+
+        session = Session(bind=engine)
+
+        stmt = session.query(Posto)
 
         df = pd.read_sql(
             sql=stmt.statement,

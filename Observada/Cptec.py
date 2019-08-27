@@ -53,6 +53,8 @@ class Merge(object):
         for n, pedaco in enumerate(pedacos):
             df = pd.DataFrame()
             print('Pedaco {:} de {:} -> {:}'.format(n + 1, len(pedacos) + 1, pedaco))
+            print(pedaco)
+
 
             # leitura dos dados
             raw_data = netCDF4.MFDataset(pedaco)
@@ -97,7 +99,6 @@ class Merge(object):
 
                     aux = pd.DataFrame.from_dict(data=aux, orient='columns')
                     df = pd.DataFrame(pd.concat(objs=[df, aux]))
-
 
             # Insere no banco de dados
             dados = Dados()

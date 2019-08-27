@@ -27,7 +27,12 @@ for i, col in enumerate(raw.columns):
         df = pd.concat(objs=[df, aux])
 
 df = pd.DataFrame(df.loc[df['num_posto'].isin([1, 2, 211, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18])])
+
 df = df.loc[df['dat_medicao'] >= '19980102']
 df.sort_values(by=['num_posto', 'dat_medicao'], ascending=True, inplace=True)
+
+'''
+# Insercao dos dados no banco de dados sta_clara
 dados = Dados()
 dados.insert_vazao(df=df)
+'''
