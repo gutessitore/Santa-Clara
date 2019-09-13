@@ -45,5 +45,6 @@ config = Config()
 print(df_vazao)
 ```
 
-## Contribuições
-Contribuições são bem vindas.
+## Variáveis
+Link de onde as informações foram extraidas
+[Chuva]http://ftp.cptec.inpe.br/modelos/io/produtos/MERGE/
