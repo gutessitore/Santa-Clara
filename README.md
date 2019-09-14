@@ -46,11 +46,11 @@ print(df_vazao)
 ```
 
 ## Variáveis
-Link de onde as informações foram extraidas
-[Chuva](http://ftp.cptec.inpe.br/modelos/io/produtos/MERGE/)<br/>
-[Vazão Natural](http://www.ons.org.br/)<br/>
-[Soil Moisture](https://www.esrl.noaa.gov/psd/data/gridded/data.cpcsoil.html)<br/>
-[Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
-[Maximum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
-[Minimum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
-[SST - sea surface temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
+Link de onde as informações foram extraidas<br/>
+-[Chuva](http://ftp.cptec.inpe.br/modelos/io/produtos/MERGE/)<br/>
+-[Vazão Natural](http://www.ons.org.br/)<br/>
+-[Soil Moisture](https://www.esrl.noaa.gov/psd/data/gridded/data.cpcsoil.html)<br/>
+-[Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface--temperatures)<br/>
+-[Maximum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
+-[Minimum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
+-[SST - sea surface temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
