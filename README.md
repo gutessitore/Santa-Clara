@@ -55,9 +55,9 @@ Link de onde as informações foram extraidas<br/>
 -[Minimum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
 -[SST - sea surface temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
 
-   _____             _           _____ _                 
-  / ____|           | |         / ____| |                
- | (___   __ _ _ __ | |_ __ _  | |    | | __ _ _ __ __ _ 
-  \___ \ / _` | '_ \| __/ _` | | |    | |/ _` | '__/ _` |
-  ____) | (_| | | | | || (_| | | |____| | (_| | | | (_| |
- |_____/ \__,_|_| |_|\__\__,_|  \_____|_|\__,_|_|  \__,_|
+   _____             _           _____ _                 <br/>
+  / ____|           | |         / ____| |                <br/>
+ | (___   __ _ _ __ | |_ __ _  | |    | | __ _ _ __ __ _ <br/>
+  \___ \ / _` | '_ \| __/ _` | | |    | |/ _` | '__/ _` |<br/>
+  ____) | (_| | | | | || (_| | | |____| | (_| | | | (_| |<br/>
+ |_____/ \__,_|_| |_|\__\__,_|  \_____|_|\__,_|_|  \__,_|<br/>
