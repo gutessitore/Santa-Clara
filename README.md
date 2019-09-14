@@ -54,3 +54,10 @@ Link de onde as informações foram extraidas<br/>
 -[Maximum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
 -[Minimum Air Temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
 -[SST - sea surface temperature](https://climatedataguide.ucar.edu/climate-data/global-surface-temperatures-best-berkeley-earth-surface-temperatures)<br/>
+
+   _____             _           _____ _                 
+  / ____|           | |         / ____| |                
+ | (___   __ _ _ __ | |_ __ _  | |    | | __ _ _ __ __ _ 
+  \___ \ / _` | '_ \| __/ _` | | |    | |/ _` | '__/ _` |
+  ____) | (_| | | | | || (_| | | |____| | (_| | | | (_| |
+ |_____/ \__,_|_| |_|\__\__,_|  \_____|_|\__,_|_|  \__,_|
