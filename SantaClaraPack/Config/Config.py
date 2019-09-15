@@ -21,6 +21,24 @@ class Config(object):
 
             ),
 
+            soil=dict(
+                data_inicial='1998-01-01',
+
+                variables_name=dict(
+                    lon='lon',
+                    lat='lat',
+                    soil='soilw',
+                    tempo='time'
+                ),
+
+                # Coloca o subset do dados de solo ai
+                sub_set=dict(
+                    lat=dict(ini=-22.5, fim=-17.5, obs='graus N'),
+                    lon=dict(ini=127.5, fim=140.0, ob='graus leste'),
+                )
+
+            ),
+
             paths=dict(
 
                 merge=dict(

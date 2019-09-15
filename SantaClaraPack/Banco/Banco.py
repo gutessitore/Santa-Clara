@@ -4,7 +4,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine, ForeignKey, Column, Integer, Float, VARCHAR, Date
-from Config.Config import Config
+from SantaClaraPack.Config.Config import Config
 
 config = Config().config_banco
 Base = declarative_base()
@@ -50,6 +50,15 @@ class Chuva(Base):
     val_lat = Column(Float)
     dat_medicao = Column(Date)
     val_precip = Column(Float)
+
+class Solo(Base):
+    __tablename__ = 'tbl_solo'
+
+    id = Column(Integer, primary_key=True)
+    val_lon = Column(Float)
+    val_lat = Column(Float)
+    dat_medicao = Column(Date)
+    val_soil = Column(Float)
 
 engine = create_engine(config['string_engine'].format(**config['credentials']))
 Base.metadata.create_all(engine)
