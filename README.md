@@ -33,10 +33,10 @@ from Banco.Dados import Dados
 from Config.Config import Config
 
 dados = Dados()
-df_vazao = dados.get_vazao(
+df_vazao = dados.get_gried_data(
     data_inicial='2017-01-01',
     data_final='2017-01-31',
-    posto=1
+    classe="Chuva"
 )
 
 config = Config()
