@@ -43,12 +43,29 @@ class Dados(object):
 
         pass
 
-    def query_chuva(self, data_inicial, data_final):
+    def get_gried_data(self,
+                         classe,
+                         data_inicial,
+                         data_final,
+                         lat_inicial=-22.5,
+                         lat_final=-17.5,
+                         lon_inicial=-52.5,
+                         lon_final=-40.0):
 
         session = Session(bind=engine)
 
-        session.query(Chuva).filter(Chuva.dat_medicao >= data_inicial).filter(Chuva.dat_medicao <= data_final)
-        pass
+        cla = globals()[classe]
+
+        stmt = session.query(cla).filter(cla.dat_medicao >= data_inicial).filter(cla.dat_medicao <= data_final)\
+            .filter(cla.val_lat >= lat_inicial).filter(cla.val_lat <= lat_final)\
+            .filter(cla.val_lon >= lon_inicial).filter(cla.val_lon <= lon_final)
+
+        df = pd.read_sql(
+            sql=stmt.statement,
+            con=session.bind
+        )
+
+        return df
 
     def insert_vazao(self, df):
         df = pd.DataFrame(df)
