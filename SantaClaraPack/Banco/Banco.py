@@ -24,7 +24,6 @@ class Posto(Base):
     # Relações
     vazoes = relationship('Vazao', back_populates='posto')
 
-
 class Vazao(Base):
     __tablename__ = 'tbl_vazao'
 
@@ -40,7 +39,6 @@ class Vazao(Base):
 
     # Relacoes
     posto = relationship('Posto', back_populates='vazoes')
-
 
 class Chuva(Base):
     __tablename__ = 'tbl_chuva'
@@ -59,6 +57,18 @@ class Solo(Base):
     val_lat = Column(Float)
     dat_medicao = Column(Date)
     val_soil = Column(Float)
+
+class Temperature(Base):
+    __tablename__ = 'tbl_temperature'
+
+    id = Column(Integer, primary_key=True)
+    val_lon = Column(Float)
+    val_lat = Column(Float)
+    dat_medicao = Column(Date)
+    val_temp_med = Column(Float)
+    val_temp_max = Column(Float)
+    val_temp_min = Column(Float)
+
 
 engine = create_engine(config['string_engine'].format(**config['credentials']))
 Base.metadata.create_all(engine)

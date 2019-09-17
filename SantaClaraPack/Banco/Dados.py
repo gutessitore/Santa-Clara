@@ -43,29 +43,12 @@ class Dados(object):
 
         pass
 
-    def get_gried_data(self,
-                         classe,
-                         data_inicial,
-                         data_final,
-                         lat_inicial=-22.5,
-                         lat_final=-17.5,
-                         lon_inicial=-52.5,
-                         lon_final=-40.0):
+    def query_chuva(self, data_inicial, data_final):
 
         session = Session(bind=engine)
 
-        cla = globals()[classe]
-
-        stmt = session.query(cla).filter(cla.dat_medicao >= data_inicial).filter(cla.dat_medicao <= data_final)\
-            .filter(cla.val_lat >= lat_inicial).filter(cla.val_lat <= lat_final)\
-            .filter(cla.val_lon >= lon_inicial).filter(cla.val_lon <= lon_final)
-
-        df = pd.read_sql(
-            sql=stmt.statement,
-            con=session.bind
-        )
-
-        return df
+        session.query(Chuva).filter(Chuva.dat_medicao >= data_inicial).filter(Chuva.dat_medicao <= data_final)
+        pass
 
     def insert_vazao(self, df):
         df = pd.DataFrame(df)
@@ -168,3 +151,26 @@ class Dados(object):
             input('"Press Enter to continue..."')
 
         pass
+
+    def insert_temperature(self, df):
+        df = pd.DataFrame(df)
+
+        # Remove nulls e nas
+        #df.replace(to_replace='', value=np.nan, inplace=True)
+        #df.drop(inplace=True)
+        session = Session(bind=engine)
+
+        dados = [
+            Temperature(
+                val_lat=dado['val_lat'],
+                val_lon=dado['val_lon'],
+                dat_medicao=dado.dat_medicao.to_pydatetime(),
+                val_temp_med=dado['val_temp_med'],
+                val_temp_min=dado['val_temp_min'],
+                val_temp_max=dado['val_temp_max'],
+            ) for i, dado in df.iterrows()
+        ]
+
+        #print('Insercao na base de dados')
+        session.bulk_save_objects(objects=dados)
+        session.commit()

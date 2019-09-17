@@ -7,7 +7,7 @@ class Config(object):
             merge=dict(
                 data_inicial='1998-01-01',
 
-                variables_name=dict(
+                variable_name=dict(
                     lon='lon',
                     lat='lat',
                     chuva='prec',
@@ -22,7 +22,6 @@ class Config(object):
             ),
 
             soil=dict(
-                data_inicial='1998-01-01',
 
                 variables_name=dict(
                     lon='lon',
@@ -31,12 +30,30 @@ class Config(object):
                     tempo='time'
                 ),
 
-                # Coloca o subset do dados de solo ai
                 sub_set=dict(
                     lat=dict(ini=-22.5, fim=-17.5, obs='graus N'),
                     lon=dict(ini=127.5, fim=140.0, ob='graus leste'),
                 )
 
+            ),
+
+            temperature=dict(
+
+                variable_names=dict(
+                    lon='longitude',
+                    lat='latitude',
+                    temp='temperature',
+                    clima='climatology',
+                    day='day',
+                    month='month',
+                    year='year',
+                    day_of_year='day_of_year'
+                ),
+
+                sub_set=dict(
+                    lat=dict(ini=-23.5, fim=-16.5, obs='graus N'),
+                    lon=dict(ini=-53.5, fim=-39.0, ob='graus leste'),
+                ),
             ),
 
             paths=dict(
@@ -71,7 +88,7 @@ class Config(object):
                 password='',
                 host='',
                 database='',
-                port=3306,
+                port=,
                 # raise_on_warnings=True,
                 # get_warnings=True,
             ),
