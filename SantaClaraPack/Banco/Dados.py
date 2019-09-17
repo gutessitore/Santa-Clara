@@ -92,14 +92,19 @@ class Dados(object):
         session.bulk_save_objects(objects=postos)
         session.commit()
 
-    def get_vazao(self, data_inicial='1998-01-02', data_final='2019-08-31', posto=1):
-        session = Session(bind=engine)
+    def get_gridded_data(self,
+                         classe,
+                         data_inicial,
+                         data_final,
+                         lat_inicial=-22.5,
+                         lat_final=-17.5,
+                         lon_inicial=-52.5,
+                         lon_final=-40.0):
+        cla = globals()[classe]
 
-        stmt = session.query(
-            Vazao.num_posto, Vazao.dat_medicao, Vazao.val_vaz_natr).\
-            filter(Vazao.dat_medicao >= data_inicial).\
-            filter(Vazao.dat_medicao <= data_final).\
-            filter(Vazao.num_posto == posto)
+        stmt = session.query(cla).filter(cla.dat_medicao >= data_inicial).filter(cla.dat_medicao <= data_final)\
+            .filter(cla.val_lat >= lat_inicial).filter(cla.val_lat <= lat_final)\
+            .filter(cla.val_lon >= lon_inicial).filter(cla.val_lon <= lon_final)
 
         df = pd.read_sql(
             sql=stmt.statement,
