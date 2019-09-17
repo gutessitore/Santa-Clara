@@ -63,7 +63,6 @@ for c, file in enumerate(files):
                 print(tempo.year, var_name)
                 t_2 = tempo.year
 
-
             for j, lat in enumerate(lats):
                 aux = {
                     'dat_medicao': [tempo] * len(lons),
