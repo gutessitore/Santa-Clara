@@ -70,6 +70,19 @@ class Temperature(Base):
     val_temp_min = Column(Float)
 
 
+
+class Rios(Base):
+    __tablename__ = 'tbl_rios'
+
+    id = Column(Integer, primary_key=True)
+    val_lon = Column(Float)
+    val_lat = Column(Float)
+    nom_bacia = Column(VARCHAR(255))
+    num_ponto = Column(Integer)
+    num_hidroac = Column(Integer)
+    num_tipo = Column(Integer)
+
+
+
 engine = create_engine(config['string_engine'].format(**config['credentials']))
 Base.metadata.create_all(engine)
-
