@@ -3,8 +3,8 @@
 
 import pandas as pd
 import numpy as np
-from SantaClaraPack.Banco.Banco import *
-from SantaClaraPack.Config.Config import Config
+from Banco.Banco import *
+from Config.Config import Config
 from sqlalchemy.orm import Session
 
 class Dados(object):
