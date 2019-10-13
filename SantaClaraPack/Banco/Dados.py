@@ -248,3 +248,55 @@ class Dados(object):
 
         session.bulk_save_objects(objects=postos)
         session.commit()
+
+    #Funcao que pega os dados de chuva para previsao de um posto
+    def get_post_data(self, lat_inicial, lat_final, lon_inicial, lon_final, plot=False, posto=1, data_inicial='2017-01-01', data_final='2017-01-31'):
+
+        #Adicionar umidade e temperatura!
+
+        #cordenadas estimadas para previsao do posto 1
+        # lat_inicial=-22.6
+        # lat_final=-21.32
+        # lon_inicial=-44.8
+        # lon_final=-44.2
+
+        vaz_natr = self.get_vazao(data_inicial=data_inicial, posto=posto)
+        chuva = self.get_gridded_data(
+                    data_inicial=data_inicial,
+                    data_final=data_final,
+                    classe="Chuva",
+                    lat_inicial=lat_inicial,
+                    lat_final=lat_final,
+                    lon_inicial=lon_inicial,
+                    lon_final=lon_final
+            )
+
+        df = chuva.iloc[:, 1:]
+        df = df.merge(vaz_natr.iloc[:, 2:4], on="dat_medicao") #data frame com lat, lon, date, prep, e vaz da area selecionada para o posto 1
+
+        if plot:
+            import matplotlib.pyplot as plt
+            import matplotlib
+
+            rio = self.get_rio_path()
+            postos = self.get_posto()
+
+            fig = plt.figure()
+            ax = fig.add_subplot(111)
+
+            area = plt.matplotlib.patches.Rectangle((lon_inicial, lat_inicial),
+                                                         height= np.absolute(lat_final - lat_inicial), 
+                                                         width= np.absolute(lon_final - lon_inicial),
+                                                         alpha=0.2,
+                                                         color='darkcyan')
+
+            ax.scatter(rio.val_lon, rio.val_lat, s=2, c='b')
+            ax.add_artist(area)
+            ax.scatter(postos.num_lon ,postos.num_lat, s=200, c='r', marker="v")
+            ax.scatter(chuva.val_lon, chuva.val_lat, s=10, c='r')
+            plt.grid()
+            plt.show() 
+
+        return df
+
+
