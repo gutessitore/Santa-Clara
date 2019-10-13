@@ -260,6 +260,8 @@ class Dados(object):
         # lon_inicial=-44.8
         # lon_final=-44.2
 
+        return print("Function under construction") #Funcao incompleta
+
         vaz_natr = self.get_vazao(data_inicial=data_inicial, posto=posto)
         chuva = self.get_gridded_data(
                     data_inicial=data_inicial,
@@ -271,8 +273,30 @@ class Dados(object):
                     lon_final=lon_final
             )
 
+        temp = self.get_gridded_data(
+                    data_inicial=data_inicial,
+                    data_final=data_final,
+                    classe="Temperature",
+                    lat_inicial=lat_inicial,
+                    lat_final=lat_final,
+                    lon_inicial=lon_inicial,
+                    lon_final=lon_final
+            )
+
+        umid = self.get_gridded_data(
+                    data_inicial=data_inicial,
+                    data_final=data_final,
+                    classe="Solo",
+                    lat_inicial=lat_inicial,
+                    lat_final=lat_final,
+                    lon_inicial=lon_inicial,
+                    lon_final=lon_final
+            ) #Nao esta devolvendo nada
+
         df = chuva.iloc[:, 1:]
         df = df.merge(vaz_natr.iloc[:, 2:4], on="dat_medicao") #data frame com lat, lon, date, prep, e vaz da area selecionada para o posto 1
+        df = df.merge(temp.iloc[:, 1:], on=["dat_medicao", "val_lat", "val_lon"]) #O merge so vai funcionar quando a granulacao da loc for a mesma em todos os dataframes
+        df = df.merge(umid.iloc[:, 1:], on=["dat_medicao", "val_lat", "val_lon"]) 
 
         if plot:
             import matplotlib.pyplot as plt

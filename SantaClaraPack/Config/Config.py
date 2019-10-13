@@ -86,7 +86,7 @@ class Config(object):
             credentials=dict(
                 user='',
                 password='',
-                host='',
+                host='m',
                 database='',
                 port=3306,
                 # raise_on_warnings=True,
