@@ -4,7 +4,7 @@
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine, ForeignKey, Column, Integer, Float, VARCHAR, Date
-from Config.Config import Config
+from SantaClaraPack.Config.Config import Config
 
 config = Config().config_banco
 Base = declarative_base()

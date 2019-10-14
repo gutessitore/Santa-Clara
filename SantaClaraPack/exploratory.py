@@ -1,7 +1,12 @@
 import pandas as pd
-from SantaClaraPack.Banco.Dados import Dados
-from SantaClaraPack.Stats.Stats import Stats
-from SantaClaraPack.Plot.Plot import Plot
+#from SantaClaraPack.Banco.Dados import Dados
+#from SantaClaraPack.Stats.Stats import Stats
+#from SantaClaraPack.Plot.Plot import Plot
+from Banco.Dados import Dados
+from Stats.Stats import Stats
+from Plot.Plot import Plot
+
+
 
 # Leitura dos dados
 dao = Dados()

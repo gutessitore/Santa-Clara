@@ -37,7 +37,8 @@ class Dados(object):
 
         session = Session(bind=engine)
 
-        session.query(Chuva).filter(Chuva.dat_medicao >= data_inicial).filter(Chuva.dat_medicao <= data_final)
+        session.query(Chuva)\
+            .filter(Chuva.dat_medicao >= data_inicial).filter(Chuva.dat_medicao <= data_final)
         pass
 
 
@@ -54,7 +55,9 @@ class Dados(object):
         cla = globals()[classe]
         session = Session(bind=engine)
 
-        stmt = session.query(cla).filter(cla.dat_medicao >= data_inicial).filter(cla.dat_medicao <= data_final)\
+        stmt = session.query(cla)\
+            .filter(cla.dat_medicao >= data_inicial)\
+            .filter(cla.dat_medicao <= data_final)\
             .filter(cla.val_lat >= lat_inicial).filter(cla.val_lat <= lat_final)\
             .filter(cla.val_lon >= lon_inicial).filter(cla.val_lon <= lon_final)
 
@@ -79,7 +82,7 @@ class Dados(object):
 
         return df
 
-    
+
     def get_rio_path(self):
 
         session = Session(bind=engine)
@@ -248,7 +251,6 @@ class Dados(object):
 
         session.bulk_save_objects(objects=postos)
         session.commit()
-
     #Funcao que pega os dados de chuva para previsao de um posto
     def get_post_data(self, lat_inicial, lat_final, lon_inicial, lon_final, plot=False, posto=1, data_inicial='2017-01-01', data_final='2017-01-31'):
 
@@ -298,7 +300,7 @@ class Dados(object):
         df = chuva.iloc[:, 1:]
         df = df.merge(vaz_natr.iloc[:, 2:4], on="dat_medicao") #data frame com lat, lon, date, prep, e vaz da area selecionada para o posto 1
         df = df.merge(temp.iloc[:, 1:], on=["dat_medicao", "val_lat", "val_lon"]) #O merge so vai funcionar quando a granulacao da loc for a mesma em todos os dataframes
-        df = df.merge(umid.iloc[:, 1:], on=["dat_medicao", "val_lat", "val_lon"]) 
+        df = df.merge(umid.iloc[:, 1:], on=["dat_medicao", "val_lat", "val_lon"])
 
         if plot:
             import matplotlib.pyplot as plt
@@ -311,7 +313,7 @@ class Dados(object):
             ax = fig.add_subplot(111)
 
             area = plt.matplotlib.patches.Rectangle((lon_inicial, lat_inicial),
-                                                         height= np.absolute(lat_final - lat_inicial), 
+                                                         height= np.absolute(lat_final - lat_inicial),
                                                          width= np.absolute(lon_final - lon_inicial),
                                                          alpha=0.2,
                                                          color='darkcyan')
@@ -321,7 +323,7 @@ class Dados(object):
             ax.scatter(postos.num_lon ,postos.num_lat, s=200, c='r', marker="v")
             ax.scatter(chuva.val_lon, chuva.val_lat, s=10, c='r')
             plt.grid()
-            plt.show() 
+            plt.show()
 
         return df
 
