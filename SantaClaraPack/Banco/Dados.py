@@ -260,7 +260,7 @@ class Dados(object):
         # lon_inicial=-44.8
         # lon_final=-44.2
 
-        return print("Function under construction") #Funcao incompleta
+        #return print("Function under construction")
 
         vaz_natr = self.get_vazao(data_inicial=data_inicial, posto=posto)
         chuva = self.get_gridded_data(
@@ -289,9 +289,11 @@ class Dados(object):
                     classe="Solo",
                     lat_inicial=lat_inicial,
                     lat_final=lat_final,
-                    lon_inicial=lon_inicial,
-                    lon_final=lon_final
-            ) #Nao esta devolvendo nada
+                    lon_inicial=lon_inicial +180,
+                    lon_final=lon_final + 180
+            )
+
+        umid.val_lon = [(lon - 180) for lon in umid.val_lon]
 
         df = chuva.iloc[:, 1:]
         df = df.merge(vaz_natr.iloc[:, 2:4], on="dat_medicao") #data frame com lat, lon, date, prep, e vaz da area selecionada para o posto 1
