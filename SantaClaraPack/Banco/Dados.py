@@ -3,8 +3,8 @@
 
 import pandas as pd
 import numpy as np
-from Banco.Banco import *
-from Config.Config import Config
+from SantaClaraPack.Banco.Banco import *
+from SantaClaraPack.Config.Config import Config
 from sqlalchemy.orm import Session
 
 class Dados(object):
@@ -47,9 +47,9 @@ class Dados(object):
             classe,
             data_inicial,
             data_final,
-            lat_inicial=-22.5,
-            lat_final=-17.5,
-            lon_inicial=-52.5,
+            lat_inicial=-22.4,
+            lat_final=-17.6,
+            lon_inicial=-52.4,
             lon_final=-40.0
     ):
         cla = globals()[classe]
@@ -58,8 +58,10 @@ class Dados(object):
         stmt = session.query(cla)\
             .filter(cla.dat_medicao >= data_inicial)\
             .filter(cla.dat_medicao <= data_final)\
-            .filter(cla.val_lat >= lat_inicial).filter(cla.val_lat <= lat_final)\
-            .filter(cla.val_lon >= lon_inicial).filter(cla.val_lon <= lon_final)
+            .filter(cla.val_lat >= lat_inicial)\
+            .filter(cla.val_lat <= lat_final)\
+            .filter(cla.val_lon >= lon_inicial)\
+            .filter(cla.val_lon <= lon_final)
 
         df = pd.read_sql(
             sql=stmt.statement,
@@ -166,8 +168,6 @@ class Dados(object):
         df = pd.DataFrame(df)
 
         # Remove nulls e nas
-        #df.replace(to_replace='', value=np.nan, inplace=True)
-        #df.drop(inplace=True)
         session = Session(bind=engine)
 
         dados = [
@@ -251,8 +251,19 @@ class Dados(object):
 
         session.bulk_save_objects(objects=postos)
         session.commit()
+
     #Funcao que pega os dados de chuva para previsao de um posto
-    def get_post_data(self, lat_inicial, lat_final, lon_inicial, lon_final, plot=False, posto=1, data_inicial='2017-01-01', data_final='2017-01-31'):
+    def get_post_data(
+            self,
+            lat_inicial,
+            lat_final,
+            lon_inicial,
+            lon_final,
+            plot=False,
+            posto=1,
+            data_inicial='2017-01-01',
+            data_final='2017-01-31'
+    ):
 
         #Adicionar umidade e temperatura!
 
@@ -265,6 +276,7 @@ class Dados(object):
         #return print("Function under construction")
 
         vaz_natr = self.get_vazao(data_inicial=data_inicial, posto=posto)
+
         chuva = self.get_gridded_data(
                     data_inicial=data_inicial,
                     data_final=data_final,

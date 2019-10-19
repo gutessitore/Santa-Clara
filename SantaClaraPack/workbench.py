@@ -1,6 +1,7 @@
 import pandas as pd
 from Config.Config import Config
 from Banco.Dados import Dados
+from scipy.interpolate import griddata
 
 #arquivo destinado a testes
 
@@ -48,6 +49,19 @@ dados = Dados()
 
 # print(chuva.iloc[:, 1:])
 
+# umid = dados.get_gridded_data(
+#             data_inicial="2017-01-01",
+#             data_final="2017-01-31",
+#             classe="Solo",
+# 			lat_inicial=-22.6,
+# 			lat_final=-21.32,
+# 			lon_inicial=135.2,
+# 			lon_final=135.8
+#     ) #Nao esta devolvendo nada
+
+# umid.val_lon = [(lon - 180) for lon in umid.val_lon]
+
+# print(umid)
 
 data = dados.get_post_data(
 			lat_inicial=-22.6,

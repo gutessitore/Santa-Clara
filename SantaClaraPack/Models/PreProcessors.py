@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import scipy
 import tensorflow as tf
 from sklearn.model_selection import TimeSeriesSplit, train_test_split
 
@@ -71,7 +72,7 @@ class WindowProcessor(PreProcessors):
     def __init__(self):
         super().__init__()
 
-    def transform(self, X, y, n_in=1, n_out=1, dropnan=True):
+    def transform(self, X, y, n_in=1, n_out=1, dropnan=True, y_name='val_vaz_natr'):
         X = pd.DataFrame(X)
         y = pd.DataFrame(y)
 
@@ -89,6 +90,10 @@ class WindowProcessor(PreProcessors):
         X_lag = pd.concat(cols, axis=1)
         X_lag.columns = names
 
+        # Remove t+0, t+1 ... t+n da variável y_name
+        for i in range(n_out + 1):
+            X_lag.drop(columns=['{var:}_(t{lag:+d})'.format(var=y_name, lag=i)], inplace=True)
+
         # drop rows with NaN values
         if dropnan:
             X_lag.dropna(inplace=True)
@@ -96,7 +101,32 @@ class WindowProcessor(PreProcessors):
 
         return X_lag, y_lag
 
-            # Fazendo a parcel t+1, t+2, ....
-        pass
+
+    def transform_predict(self, X, n_in=1, n_out=1, dropnan=True, y_name='val_vaz_natr'):
+        X = pd.DataFrame(X)
 
 
+        cols, names = list(), list()
+        # input sequence (t-n_in, ... t-1, t+0, t+1, t+2 ... t+n_out)
+        for i in range(n_in, n_out+1, 1):
+            cols.append(X.shift(-i))
+            names += ['{var:}_(t{lag:+d})'.format(var=var, lag=i) for var in X.columns]
+
+        # Label sequence (t-n_in, ... t-1, t+0, t+1, t+2 ... t+n_out)
+        #y_lag = y.shift(-n_in)
+        #y_lag = y_lag.shift(n_out)
+
+        # put it all together
+        X_lag = pd.concat(cols, axis=1)
+        X_lag.columns = names
+
+        # Remove t+0, t+1 ... t+n da variável y_name
+        for i in range(n_out + 1):
+            X_lag.drop(columns=['{var:}_(t{lag:+d})'.format(var=y_name, lag=i)], inplace=True)
+
+        # drop rows with NaN values
+        if dropnan:
+            X_lag.dropna(inplace=True)
+
+
+        return X_lag

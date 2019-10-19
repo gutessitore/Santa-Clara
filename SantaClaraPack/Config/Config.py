@@ -84,10 +84,10 @@ class Config(object):
             string_engine=r'mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}',
 
             credentials=dict(
-                user='',
-                password='',
-                host='m',
-                database='',
+                user='admin',
+                password='Abrate#001',
+                host='staclara.cm0s2bcwfhep.sa-east-1.rds.amazonaws.com',
+                database='db_sta_clara',
                 port=3306,
                 # raise_on_warnings=True,
                 # get_warnings=True,
