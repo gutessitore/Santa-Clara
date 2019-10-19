@@ -14,11 +14,11 @@ class MultiLayerPerceptron(Models):
         super().__init__()
 
         self.search_space = {
-            'num_layer': [1, 50],
-            'hidden_layer_sizes': [50, 400],
-            'alpha': [1e-10, 1e2],
+            'num_layer': [1, 10],
+            'hidden_layer_sizes': [20, 200],
+            'alpha': [1e-4, 1e-1],
             'random_state': [42, 10000],
-            #'learning_rate': [1e-5, 1]
+            'learning_rate_init': [1e-3, 1]
         }
 
         self.pipeline = Pipeline(
@@ -30,8 +30,7 @@ class MultiLayerPerceptron(Models):
                     early_stopping=True,
                     n_iter_no_change=10,
                     learning_rate='constant',
-                    max_iter=1000,
-
+                    max_iter=2000,
                 )
                  ),
             ]

@@ -75,7 +75,7 @@ class Plot(object):
                 y=coefs,
                 width=[0.05 for i in range(coefs.shape[0])],
                 marker_color='blue',
-                name='Auto Correlação',
+                name=mode,
 
                 #showlegend=False,
             )
@@ -124,6 +124,7 @@ class Plot(object):
 
 
         fig.update_layout(legend_orientation="h")
+        pio.write_html(fig=fig, file=r'Fig/{:}.html'.format(mode))
         fig.show()
 
 
@@ -147,3 +148,28 @@ class Plot(object):
         ax.set_ylabel('PSD (dB)')
         pass
 
+
+    def plot_prediction_compararison(self, y_pred, y_true, times, auto_open=False):
+
+        trace_pred = go.Scatter(
+            x=times,
+            y=y_pred,
+            name='Previsão',
+            mode='lines',
+            line=dict(color='green')
+
+        )
+
+        trace_true = go.Scatter(
+            x=times,
+            y=y_true,
+            fillcolor='green',
+            name='Observado',
+            mode='lines',
+            line=dict(color='red')
+        )
+
+
+        fig = go.Figure(data=[trace_pred, trace_true])
+        pio.write_html(fig=fig, file=r'Fig/comparacao_test_mlp.html', auto_open=auto_open)
+        pass

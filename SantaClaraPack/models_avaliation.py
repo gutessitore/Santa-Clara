@@ -1,10 +1,10 @@
-import pandas as pd
-import numpy as np
 import optuna
+from joblib import dump, load
+from sklearn.metrics import mean_absolute_error, median_absolute_error, r2_score
 from SantaClaraPack.Models.PreProcessors import *
 from SantaClaraPack.Banco.Dados import Dados
-from SantaClaraPack.Models.Optimizer import Optimizer
-
+from SantaClaraPack.Optimizer.Optimizer import Optimizer
+from SantaClaraPack.Plot.Plot import Plot
 
 if __name__ == '__main__':
     desired_width = 320
@@ -15,6 +15,7 @@ if __name__ == '__main__':
     dao = Dados()
     df_vazao = dao.get_vazao(posto=1, classe='Vazao', data_inicial='2000-01-01', data_final='2016-12-31')
     df_vazao = pd.DataFrame(df_vazao.iloc[:, 1:4])
+    df_vazao.drop(columns=['num_posto'], inplace=True)
     df_vazao.set_index(keys=['dat_medicao'], inplace=True)
 
     df_chuva = dao.get_gridded_data(
@@ -51,18 +52,39 @@ if __name__ == '__main__':
 
     # Avaliacao do modelo modelo com hyper-tunning
     optimize = Optimizer()
-    optimize.get_data(X=X_train, y=y_train, X_test=X_test, y_test=y_test)
+
     study = optuna.create_study(
-        storage='sqlite:///Models/example.db',
+        storage='sqlite:///Optimizer/optimize_tests.db',
         direction='maximize',
-        study_name='test',
+        study_name='optimize',
         load_if_exists=True
     )
-    study.optimize(optimize, n_trials=10)
 
+    optimize.get_data(X=X_train, y=y_train, X_test=X_test, y_test=y_test)
+    study.optimize(optimize, n_trials=50)
 
-    print(study.best_trial)
-    print(study.best_params)
-    df = study.trials_dataframe()
-    print(study.trials_dataframe())
-    print('d')
+    # Cria e salva melhor configuração
+    model = optimize.create_best_model(params=study.best_params)
+    print('Criação do modelo com os melhores parametros pesquisados:')
+    [print(k, v) for k, v in model.best_params_.items()]
+
+    dump(value=model, filename=r'Models/mlp_posto_1.joblib')
+
+    window = WindowProcessor()
+    X_test_lag, y_test_lag = window.transform(
+        X=X_test,
+        y=y_test,
+        n_in=study.best_params['window_neg'],
+        n_out=0
+    )
+
+    y_hat = model.predict(X=X_test_lag)
+
+    # Scores
+    print('MAE test: {:}'.format(mean_absolute_error(y_true=y_test_lag, y_pred=y_hat)))
+    print('MedAE test: {:}'.format(median_absolute_error(y_true=y_test_lag, y_pred=y_hat)))
+    print('R2 test: {:}'.format(r2_score(y_true=y_test_lag, y_pred=y_hat)))
+
+    # plot
+    plot = Plot()
+    plot.plot_prediction_compararison(y_true=y_test_lag['val_vaz_natr'].values, y_pred=y_hat, times=y_test_lag.index)

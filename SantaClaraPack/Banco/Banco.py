@@ -31,11 +31,11 @@ class Vazao(Base):
     num_posto = Column(Integer, ForeignKey('tbl_posto.num_posto'))
     dat_medicao = Column(Date)
     val_vaz_natr = Column(Float)
-    val_vaz_defl = Column(Float)
-    val_vaz_aflu = Column(Float)
-    val_vaz_vert = Column(Float)
-    val_vaz_incr = Column(Float)
-    val_cota = Column(Float)
+    #val_vaz_defl = Column(Float)
+    #val_vaz_aflu = Column(Float)
+    #val_vaz_vert = Column(Float)
+    #val_vaz_incr = Column(Float)
+    #val_cota = Column(Float)
 
     # Relacoes
     posto = relationship('Posto', back_populates='vazoes')
