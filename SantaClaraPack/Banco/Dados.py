@@ -3,9 +3,11 @@
 
 import pandas as pd
 import numpy as np
+from sqlalchemy.orm import Session
+
 from SantaClaraPack.Banco.Banco import *
 from SantaClaraPack.Config.Config import Config
-from sqlalchemy.orm import Session
+
 
 class Dados(object):
 
@@ -30,6 +32,7 @@ class Dados(object):
             con=session.bind
         )
 
+        session.close()
         return df
 
 
@@ -67,7 +70,7 @@ class Dados(object):
             sql=stmt.statement,
             con=session.bind
         )
-
+        session.close()
         return df
 
 
@@ -81,7 +84,7 @@ class Dados(object):
             sql=stmt.statement,
             con=session.bind
         )
-
+        session.close()
         return df
 
 
@@ -95,7 +98,7 @@ class Dados(object):
             sql=stmt.statement,
             con=session.bind
         )
-
+        session.close()
         return df
 
 
@@ -129,6 +132,7 @@ class Dados(object):
         except:
             input('"Press Enter to continue..."')
 
+        session.close()
         pass
 
 

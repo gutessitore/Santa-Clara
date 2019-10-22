@@ -86,3 +86,4 @@ class Rios(Base):
 
 engine = create_engine(config['string_engine'].format(**config['credentials']))
 Base.metadata.create_all(engine)
+

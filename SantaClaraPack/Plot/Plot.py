@@ -173,3 +173,70 @@ class Plot(object):
         fig = go.Figure(data=[trace_pred, trace_true])
         pio.write_html(fig=fig, file=r'Fig/comparacao_test_mlp.html', auto_open=auto_open)
         pass
+
+    def plot_projecoes(self, df_X, df_y, num_cols=3, open=True):
+        df_X = pd.DataFrame(df_X)
+        df_y = pd.DataFrame(df_y)
+
+        rows = round(df_X.shape[1] // num_cols) + 1
+        columns = num_cols
+
+        fig = py.subplots.make_subplots(
+            rows=rows,
+            cols=columns,
+            subplot_titles=df_X.columns
+        )
+
+        r = 1
+        c = 1
+        k = True
+        for col, data in df_X.iteritems():
+            x_0 = df_X.loc[df_y['target'] == 0, col]
+            x_1 = df_X.loc[df_y['target'] == 1, col]
+
+            fig.add_trace(
+                go.Histogram(
+                    x=x_0,
+                    histnorm='probability',
+                    name='Target - 0',
+                    opacity=1.0,
+                    marker_color='#50AAB9',
+                    legendgroup='Target - 0',
+                    showlegend=k
+                ),
+                row=r,
+                col=c
+            )
+
+            fig.add_trace(
+                go.Histogram(
+                    x=x_1,
+                    histnorm='probability',
+                    name='Target - 1',
+                    opacity=0.65,
+                    marker_color='#FF0000',
+                    legendgroup='Target - 1',
+                    showlegend=k
+                ),
+                row=r,
+                col=c
+            )
+
+            c = c + 1
+
+            if c > columns:
+                c = 1
+                r = r + 1
+
+            k = False
+
+        fig.update_layout(
+            height=5782,
+            width=1360,
+            autosize=False,
+            title=go.layout.Title(text='Distribuição das Variáveis', x=0.5, xanchor='center'),
+            showlegend=True,
+            legend=dict(x=0.95, y=1.035)
+        )
+
+        pio.write_html(fig=fig, file=r'Fig/distribution.html', auto_open=open)

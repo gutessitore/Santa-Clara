@@ -76,28 +76,43 @@ class WindowProcessor(PreProcessors):
         X = pd.DataFrame(X)
         y = pd.DataFrame(y)
 
-        cols, names = list(), list()
+
+        cols, names, y_multi, cols_y, names_y = list(), list(), list(), list(), list()
         # input sequence (t-n_in, ... t-1, t+0, t+1, t+2 ... t+n_out)
-        for i in range(n_in, n_out+1, 1):
+        for i in range(n_in, n_out, 1):
             cols.append(X.shift(-i))
             names += ['{var:}_(t{lag:+d})'.format(var=var, lag=i) for var in X.columns]
 
-        # Label sequence (t-n_in, ... t-1, t+0, t+1, t+2 ... t+n_out)
-        y_lag = y.shift(-n_in)
-        y_lag = y_lag.shift(n_out)
+            cols_y.append(y.shift(-i))
+            names_y += ['vazao_(t{lag:+d})'.format(lag=i)]
+
+
+
 
         # put it all together
         X_lag = pd.concat(cols, axis=1)
         X_lag.columns = names
 
-        # Remove t+0, t+1 ... t+n da variável y_name
-        for i in range(n_out + 1):
-            X_lag.drop(columns=['{var:}_(t{lag:+d})'.format(var=y_name, lag=i)], inplace=True)
+        # Label sequence (t-n_in, ... t-1, t+0, t+1, t+2 ... t+n_out)
+        y_lag = pd.concat(objs=cols_y, axis=1)
+        y_lag.columns = names_y
 
         # drop rows with NaN values
         if dropnan:
             X_lag.dropna(inplace=True)
             y_lag.dropna(inplace=True)
+
+
+
+        # Remove t+0, t+1 ... t+n da variável y_name de X_lag
+        # Remove t-n_in ... t-1 da variavel y de y_lag
+        for i in range(n_in, n_out, 1):
+            if i >= 0:
+                X_lag.drop(columns=['{var:}_(t{lag:+d})'.format(var=y_name, lag=i)], inplace=True)
+
+            else:
+                y_lag.drop(columns=['vazao_(t{lag:+d})'.format(lag=i)], inplace=True)
+
 
         return X_lag, y_lag
 
