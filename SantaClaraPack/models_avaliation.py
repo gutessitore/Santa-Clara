@@ -16,7 +16,7 @@ if __name__ == '__main__':
 
 
     # Numero de dias de previsão
-    n_outs = 7
+    n_outs = 30
 
     dao = Dados()
     df_vazao = dao.get_vazao(posto=1, classe='Vazao', data_inicial='2000-01-01', data_final='2016-12-31')
@@ -68,7 +68,7 @@ if __name__ == '__main__':
     )
 
     optimize.get_data(X=X_train, y=y_train, X_test=X_test, y_test=y_test, n_outs=n_outs)
-    #study.optimize(optimize, n_trials=50, n_jobs=1)
+    #study.optimize(optimize, n_trials=20, n_jobs=1)
 
     # Cria e salva melhor configuração
     model = optimize.create_best_model(params=study.best_params)
@@ -103,8 +103,10 @@ if __name__ == '__main__':
         df_previsao = pd.concat(objs=[df_previsao, aux])
 
     df_previsao.to_csv(path_or_buf=r'Fig/previsao_posto_1_oneshot.csv', sep=';', decimal=',')
+    mape = np.mean(np.abs((y_test_lag - y_hat) / y_hat))
 
     # Scores
+    print('MAPE test: {:.2%}'.format(mape.mean()))
     print('MAE test: {:}'.format(mean_absolute_error(y_true=y_test_lag, y_pred=y_hat)))
     print('R2 test: {:}'.format(r2_score(y_true=y_test_lag, y_pred=y_hat)))
 

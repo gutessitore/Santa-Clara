@@ -1,8 +1,3 @@
-
-import numpy as np
-import sklearn
-import optuna
-
 from joblib import load
 
 from sklearn.model_selection import GridSearchCV, TimeSeriesSplit
@@ -29,7 +24,7 @@ class Optimizer(object):
         models = [classe.__name__ for classe in Models.__subclasses__()]
 
         classifier_name = trial.suggest_categorical('classifier', models)
-        n_in = trial.suggest_int('window_neg', -90, -1)
+        n_in = trial.suggest_int('window_neg', -20, -1)
 
         window = WindowProcessor()
         X_lag, y_lag = window.transform(
@@ -99,9 +94,10 @@ class Optimizer(object):
                 'Mlp__random_state': [random_state],
                 'Mlp__learning_rate_init': [learning_rate_init]
             }
+
         print('Window Neg: {:}'.format(n_in))
         print('Window Forecast: {:}'.format(self.n_outs))
-
+        print('Numero Layers: {:}'.format(n_layers))
         [print(k, v) for k, v in param_grid.items()]
         with parallel_backend('threading'):
 
@@ -118,13 +114,15 @@ class Optimizer(object):
             grid.fit(X=X_lag, y=y_lag)
 
         y_hat_test = grid.predict(X_test_lag)
+
+        mape = np.mean(np.abs((y_test_lag - y_hat_test) / y_hat_test))
         print('Score cross-val: {:}'.format(grid.best_score_))
-        print('Score Test - MAE: {:}'.format(mean_absolute_error(y_true=y_test_lag, y_pred=y_hat_test)))
-        #print('Score Test - MedAE: {:}'.format(median_absolute_error(y_true=y_test_lag, y_pred=y_hat_test)))
+        print('Score Test - MAE: {:.2f}'.format(mean_absolute_error(y_true=y_test_lag, y_pred=y_hat_test)))
+        print('Score Test - MAPE: {:.2%}'.format(mape.mean()))
         print('R2 test: {:}'.format(r2_score(y_true=y_test_lag, y_pred=y_hat_test, multioutput='uniform_average')))
         print('-'*100)
         print('\n')
-        return mean_absolute_error(y_true=y_test_lag, y_pred=y_hat_test)
+        return mape.mean()
 
 
     def create_best_model(self, params):
@@ -134,7 +132,7 @@ class Optimizer(object):
             X=self.X,
             y=self.y,
             n_in=params['window_neg'],
-            n_out=7
+            n_out=self.n_outs
         )
 
         if params['classifier'] == 'MultiLayerPerceptron':
@@ -171,3 +169,4 @@ class Optimizer(object):
             filename=path
         )
         return model
+
